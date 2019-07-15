@@ -12,7 +12,8 @@ typedef struct fcc_header
 typedef enum fccCmd
 {
     eSonar = 0,
-    ePos
+    ePos,
+    eLastCmd
 } eFccCmd;
 
 #endif // MSG_COMMON_H
