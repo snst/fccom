@@ -9,9 +9,9 @@ include_directories(${GTEST_INCLUDE_DIR})
 add_executable(fcctest 
 main.cpp 
 ../impl/src/common/udplink.c 
-../impl/src/sim_lib/sim_lib.c 
-../impl/src/fc_lib/fc_lib.c 
-../impl/src/common/fclink.c
+../impl/src/sim_proxy/fcl_sim_proxy.c 
+../impl/src/fc_proxy/fcl_fc_proxy.c 
+../impl/src/common/fcl_base.c
 )
 
 target_include_directories(fcctest PRIVATE ../impl/include ../impl/src/common)

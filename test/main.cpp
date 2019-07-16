@@ -1,25 +1,33 @@
 #include <gtest/gtest.h>
 #include <stdint.h>
 #include <string.h>
-#include "fcc_sonar.h"
-#include "fcc_pos.h"
-#include "sim_lib.h"
-#include "fc_lib.h"
-#include "fclink.h"
+#include "fcl_sim_proxy.h"
+#include "fcl_fc_proxy.h"
+#include <pthread.h>
 
 TEST(sim_lib, init)
 {
-    fcc_sonar_t sonar, sonar2;
-    init_sim_lib();
-    init_fc_lib();
+    fcl_sonar_t sonar, sonar2;
+    fcl_init_fc_proxy();
+    fcl_init_sim_proxy();
 
     sonar.dist = 375;
-    sim_lib_send(eSonar, &sonar);
+    fcl_send_to_fc(eSonar, &sonar);
+    pthread_yield();
     sleep(1);
-    EXPECT_TRUE(sim_get_data(eSonar, &sonar2));
+    EXPECT_TRUE(fcl_get_from_sim(eSonar, &sonar2));
     EXPECT_EQ(sonar.dist, sonar2.dist);
-    while(1)
+    EXPECT_EQ(sonar.dist, sonar2.dist);
+
+    sonar.dist = 212;
+    fcl_send_to_fc(eSonar, &sonar);
+    pthread_yield();
     sleep(1);
+    EXPECT_TRUE(fcl_get_from_sim(eSonar, &sonar2));
+    EXPECT_EQ(sonar.dist, sonar2.dist);
+
+    fcl_deinit_fc_proxy();
+    fcl_deinit_sim_proxy();
 }
 
 int main(int argc, char **argv)

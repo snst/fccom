@@ -35,10 +35,12 @@ typedef struct {
     OnUdpData onData;
     char* buffer;
     uint32_t buffer_size;
+    bool stop;
 } udpLink_t;
 
 
 int udpInit(udpLink_t* link, const char* addr, int port, bool isServer);
+int udpDeinit(udpLink_t* link);
 int udpRecv(udpLink_t* link, void* data, size_t size, uint32_t timeout_ms);
 int udpSend(udpLink_t* link, const void* data, size_t size);
 void udpInitRecvThread(udpLink_t* link, const char* addr, int port, OnUdpData callback, uint32_t timeout_ms, char* buffer, uint32_t buffer_size);

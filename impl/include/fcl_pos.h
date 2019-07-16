@@ -2,14 +2,14 @@
 #define FCC_POS_H
 
 #include <stdint.h>
-#include "fcc_hdr.h"
+#include "fcl_hdr.h"
 
-typedef struct fcc_pos
+typedef struct
 {
     double x;
     double y;
     double z;
-} fcc_pos_t;
+} fcl_pos_t;
 
 
 #endif // FCC_POS_H
