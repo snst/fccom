@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "fcl_sonar.h"
-#include "fcl_pos.h"
+#include "fcl_types.h"
 
 #ifdef __cplusplus
 extern "C" {

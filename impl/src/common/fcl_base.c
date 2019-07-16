@@ -1,10 +1,10 @@
 #include "fcl_base.h"
-#include "fcl_pos.h"
-#include "fcl_sonar.h"
+#include "fcl_types.h"
 #include "udplink.h"
 #include <string.h>
 
-size_t fcl_cmd_len[] = {sizeof(fcl_sonar_t), sizeof(fcl_pos_t)};
+size_t fcl_cmd_len[eLastCmd] = {sizeof(fcl_sonar_t), sizeof(fcl_pos_t),
+                                sizeof(fcl_gps_t), sizeof(fcl_imu_t)};
 
 void fcl_send_data(udpLink_t *link, fclCmd_t cmd, void *data) {
 
@@ -17,11 +17,11 @@ void fcl_send_data(udpLink_t *link, fclCmd_t cmd, void *data) {
   udpSend(link, tmp, len);
 }
 
-bool fcl_get_data(void *cmd_buf[], fclCmd_t cmd, void *data) {
+bool fcl_get_data(fcl_context_t* context, fclCmd_t cmd, void *data) {
 
   bool ret = false;
   if (cmd < eLastCmd) {
-    void *src = cmd_buf[cmd];
+    void *src = context->cmd_buf[cmd];
     if (NULL != src) {
       memcpy(data, src, fcl_cmd_len[cmd]);
       ret = true;
@@ -44,4 +44,26 @@ void fcl_set_data(void *cmd_buf[], const char *data, uint32_t len) {
       }
     }
   }
+}
+
+static void recv_data(void* context, const char *data, uint32_t len) {
+
+  fcl_context_t* ctx = (fcl_context_t*)context;
+  fcl_set_data(ctx->cmd_buf, data, len);
+}
+
+
+void fcl_init_proxy(fcl_context_t *context) {
+
+  context->link_r.context = context;
+  context->link_s.context = context;
+  udpInit(&context->link_s, context->remote_addr, context->remote_port, false);
+  udpInitRecvThread(&context->link_r, context->local_addr, context->local_port, &recv_data,
+                    100, context->buffer, sizeof(context->buffer));
+}
+
+void fcl_deinit_proxy(fcl_context_t *context) {
+
+  udpDeinit(&context->link_s);
+  udpDeinit(&context->link_r);
 }

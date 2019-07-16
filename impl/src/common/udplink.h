@@ -21,7 +21,7 @@
 extern "C" {
 #endif
 
-typedef void (*OnUdpData)(const char* data, uint32_t len);
+typedef void (*OnUdpData)(void* context, const char* data, uint32_t len);
 
 typedef struct {
     int fd;
@@ -35,6 +35,7 @@ typedef struct {
     OnUdpData onData;
     char* buffer;
     uint32_t buffer_size;
+    void* context;
     bool stop;
 } udpLink_t;
 
