@@ -2,7 +2,7 @@
 #define FCC_POS_H
 
 #include <stdint.h>
-#include "fcl_hdr.h"
+#include "fcl_hdr_t.h"
 
 typedef struct
 {

@@ -1,18 +1,13 @@
 cmake_minimum_required(VERSION 2.8.9)
-project (fcctest)
+project (fcl_test)
 find_package (Threads)
 
-set(CMAKE_BUILD_TYPE "Debug")
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
 
-add_executable(fcctest 
+add_executable(fcl_test 
 main.cpp 
-../impl/src/common/udplink.c 
-../impl/src/sim_proxy/fcl_sim_proxy.c 
-../impl/src/fc_proxy/fcl_fc_proxy.c 
-../impl/src/common/fcl_base.c
 )
 
-target_include_directories(fcctest PRIVATE ../impl/include ../impl/src/common)
-target_link_libraries (fcctest ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+target_include_directories(fcl_test PRIVATE ../impl/include)
+target_link_libraries (fcl_test ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} fcl_sim_proxy fcl_fc_proxy fcl_common)

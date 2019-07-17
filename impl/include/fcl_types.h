@@ -1,10 +1,11 @@
 #ifndef FCL_TYPES_H
 #define FCL_TYPES_H
 
-#include "fcl_sonar.h"
-#include "fcl_gps.h"
-#include "fcl_pos.h"
-#include "fcl_imu.h"
+#include "fcl_sonar_t.h"
+#include "fcl_gps_t.h"
+#include "fcl_pos_t.h"
+#include "fcl_imu_t.h"
+#include "fcl_motor_t.h"
 
 typedef enum
 {
@@ -12,6 +13,7 @@ typedef enum
     ePos,
     eGps,
     eImu,
+    eMotor,
     eLastCmd
 } fclCmd_t;
 

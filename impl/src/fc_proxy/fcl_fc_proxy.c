@@ -5,10 +5,12 @@
 #include <string.h>
 
 static fcl_context_t context;
+static fcl_motor_t data_motor;
 
 void fcl_init_fc_proxy() {
 
   memset(&context, 0, sizeof(context));
+  context.cmd_buf[eMotor] = &data_motor;
   context.local_addr = NULL;
   context.local_port = FCLINK_FC_PORT;
   context.remote_addr = FCLINK_ADDR;

@@ -11,9 +11,10 @@
 #include <string.h>
 #include <sys/socket.h>
 
-int udpInit(udpLink_t *link, const char *addr, int port, bool isServer) {
+int udpInit(udpLink_t *link, const char *addr, uint16_t port, bool isServer) {
 
   int one = 1;
+  link->thread = 0;
 
   if ((link->fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
     return -2;
@@ -50,8 +51,9 @@ int udpDeinit(udpLink_t *link) {
 
   link->stop = true;
 
-  if (link->isServer) {
+  if (link->thread != 0) {
     pthread_join(link->thread, NULL);
+    link->thread = 0;
   }
 }
 
@@ -77,11 +79,7 @@ int udpRecv(udpLink_t *link, void *data, size_t size, uint32_t timeout_ms) {
   }
 
   socklen_t len;
-  int ret;
-  // ret = recvfrom(link->fd, data, size, 0, (struct sockaddr *)&link->recv,
-  // &len);
-  ret = recv(link->fd, data, size, 0);
-  // printf("rec: %d\n", ret);
+  int ret = recv(link->fd, data, size, 0);
   return ret;
 }
 
@@ -96,7 +94,7 @@ void *udpRecvWorker(void *ptr) {
   }
 }
 
-void udpInitRecvThread(udpLink_t *link, const char *addr, int port,
+void udpInitRecvThread(udpLink_t *link, const char *addr, uint16_t port,
                        OnUdpData callback, uint32_t timeout_ms, char *buffer,
                        uint32_t buffer_size) {
 

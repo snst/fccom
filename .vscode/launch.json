@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/test/fcctest",
+            "program": "${workspaceFolder}/build/test/fcl_test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

@@ -1,3 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
-#add_subdirectory(impl)
+
+set(CMAKE_BUILD_TYPE "Debug")
+
+add_subdirectory(impl)
 add_subdirectory(test)

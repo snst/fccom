@@ -2,7 +2,7 @@
 #define FCL_GPS_H
 
 #include <stdint.h>
-#include "fcl_hdr.h"
+#include "fcl_hdr_t.h"
 
 typedef struct
 {

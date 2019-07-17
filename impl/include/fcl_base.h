@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 typedef struct {
+  pthread_mutex_t mutex;
   udpLink_t link_s;
   udpLink_t link_r;
   void *cmd_buf[eLastCmd];

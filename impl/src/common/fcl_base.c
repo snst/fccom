@@ -4,7 +4,7 @@
 #include <string.h>
 
 size_t fcl_cmd_len[eLastCmd] = {sizeof(fcl_sonar_t), sizeof(fcl_pos_t),
-                                sizeof(fcl_gps_t), sizeof(fcl_imu_t)};
+                                sizeof(fcl_gps_t), sizeof(fcl_imu_t), sizeof(fcl_motor_t)};
 
 void fcl_send_data(udpLink_t *link, fclCmd_t cmd, void *data) {
 
@@ -20,6 +20,7 @@ void fcl_send_data(udpLink_t *link, fclCmd_t cmd, void *data) {
 bool fcl_get_data(fcl_context_t* context, fclCmd_t cmd, void *data) {
 
   bool ret = false;
+  pthread_mutex_lock (&context->mutex);
   if (cmd < eLastCmd) {
     void *src = context->cmd_buf[cmd];
     if (NULL != src) {
@@ -27,6 +28,7 @@ bool fcl_get_data(fcl_context_t* context, fclCmd_t cmd, void *data) {
       ret = true;
     }
   }
+  pthread_mutex_unlock (&context->mutex);
   return ret;
 }
 
@@ -49,12 +51,14 @@ void fcl_set_data(void *cmd_buf[], const char *data, uint32_t len) {
 static void recv_data(void* context, const char *data, uint32_t len) {
 
   fcl_context_t* ctx = (fcl_context_t*)context;
+  pthread_mutex_lock (&ctx->mutex);
   fcl_set_data(ctx->cmd_buf, data, len);
+  pthread_mutex_unlock (&ctx->mutex);
 }
-
 
 void fcl_init_proxy(fcl_context_t *context) {
 
+  pthread_mutex_init (&context->mutex, NULL);
   context->link_r.context = context;
   context->link_s.context = context;
   udpInit(&context->link_s, context->remote_addr, context->remote_port, false);
