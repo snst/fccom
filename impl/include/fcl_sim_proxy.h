@@ -1,13 +1,13 @@
 #ifndef FCL_SIM_PROXY_H
 #define FCL_SIM_PROXY_H
 
-#include <stdint.h>
-#include <stdbool.h>
-#include "fcl_types.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include <stdint.h>
+#include <stdbool.h>
+#include "fcl_types.h"
 
 void fcl_init_sim_proxy();
 void fcl_deinit_sim_proxy();

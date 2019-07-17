@@ -8,16 +8,16 @@
 #ifndef __UDPLINK_H
 #define __UDPLINK_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <pthread.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 typedef void (*OnUdpData)(void *context, const char *data, uint32_t len);
 

@@ -12,9 +12,9 @@ void fcl_init_fc_proxy() {
   memset(&context, 0, sizeof(context));
   context.cmd_buf[eMotor] = &data_motor;
   context.local_addr = NULL;
-  context.local_port = FCLINK_FC_PORT;
-  context.remote_addr = FCLINK_ADDR;
-  context.remote_port = FCLINK_SIM_PORT;
+  context.local_port = FCL_SIM_PORT;
+  context.remote_addr = FCL_FC_ADDR;
+  context.remote_port = FCL_FC_PORT;
   fcl_init_proxy(&context);
 }
 

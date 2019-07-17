@@ -20,9 +20,9 @@ void fcl_init_sim_proxy() {
   context.cmd_buf[eImu] = &data_imu;
 
   context.local_addr = NULL;
-  context.local_port = FCLINK_SIM_PORT;
-  context.remote_addr = FCLINK_ADDR;
-  context.remote_port = FCLINK_FC_PORT;
+  context.local_port = FCL_FC_PORT;
+  context.remote_addr = FCL_FC_ADDR;
+  context.remote_port = FCL_SIM_PORT;
   fcl_init_proxy(&context);
 }
 

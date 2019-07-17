@@ -2,6 +2,8 @@
     "files.associations": {
         "fcc_cmd.h": "c",
         "stdint.h": "c",
-        "fcc_pos.h": "c"
+        "fcc_pos.h": "c",
+        "chrono": "cpp",
+        "thread": "cpp"
     }
 }

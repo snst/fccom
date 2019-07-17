@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 2.6)
+PROJECT (fc_proxy_trace)
+
+FIND_PACKAGE (Threads)
+
+ADD_EXECUTABLE (${PROJECT_NAME} main.cpp)
+
+TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE ../../include)
+
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} fcl_common ${CMAKE_THREAD_LIBS_INIT})
+

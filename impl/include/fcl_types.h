@@ -6,6 +6,7 @@
 #include "fcl_pos_t.h"
 #include "fcl_imu_t.h"
 #include "fcl_motor_t.h"
+#include "fcl_joystick_t.h"
 
 typedef enum
 {
@@ -14,6 +15,7 @@ typedef enum
     eGps,
     eImu,
     eMotor,
+    eJoystick,
     eLastCmd
 } fclCmd_t;
 
