@@ -30,7 +30,7 @@ public:
     void SetUp() override
     {
         last_data = eLastCmd;
-        fcl_init_fc_proxy();
+        fcl_init_fc_proxy(NULL);
         fcl_init_sim_proxy(&data_callback);
     }
 

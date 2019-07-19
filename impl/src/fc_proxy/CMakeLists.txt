@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.9)
 project (fcl_fc_proxy)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 ADD_LIBRARY(${PROJECT_NAME} 
     fcl_fc_proxy.c
 )

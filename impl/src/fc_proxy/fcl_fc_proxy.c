@@ -7,9 +7,10 @@
 static fcl_context_t context;
 static fcl_motor_t data_motor;
 
-void fcl_init_fc_proxy() {
+void fcl_init_fc_proxy(on_fcl_update callback) {
 
   memset(&context, 0, sizeof(context));
+  context.data_callback = callback;
   context.cmd_buf[eMotor] = &data_motor;
   context.local_addr = NULL;
   context.local_port = FCL_SIM_PORT;
