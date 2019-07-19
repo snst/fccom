@@ -31,6 +31,7 @@ public:
   void print_state();
   void map_axis(struct js_event *event);
   int32_t get_axis(axis_t i);
+  float get_axis_raw(axis_t i);
   int32_t get_button(uint32_t i);
   bool get_button_state(uint32_t i);
 
@@ -39,6 +40,7 @@ protected:
   int32_t axis_val_[MAX_AXIS];
   int32_t axis_scaled_val_[MAX_AXIS];
   bool axis_reverse_[MAX_AXIS];
+  float axis_raw_[MAX_AXIS];
   int32_t axis_count_;
   bool button_val_[MAX_BUTTONS];
   int32_t button_count_;

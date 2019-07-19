@@ -72,6 +72,7 @@ void Joystick::map_axis(struct js_event *event)
         div *= -1;
     }
     axis_scaled_val_[event->number] = ((float)event->value / div) + JOYSTICK_MIDDLE;
+    axis_raw_[event->number] = ((float)event->value) / 32000.0f;
 }
 
 
@@ -80,6 +81,14 @@ int32_t Joystick::get_axis(axis_t i)
     if (MAX_AXIS > (uint32_t)i)
     {
         return axis_scaled_val_[i];
+    }
+}
+
+float Joystick::get_axis_raw(axis_t i)
+{
+    if (MAX_AXIS > (uint32_t)i)
+    {
+        return axis_raw_[i];
     }
 }
 

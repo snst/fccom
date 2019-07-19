@@ -6,6 +6,7 @@
 
 typedef struct 
 {
+    double sim_time;
     double linear_acceleration_x;
     double linear_acceleration_y;
     double linear_acceleration_z;

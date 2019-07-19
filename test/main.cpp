@@ -13,6 +13,13 @@ void sleep_ms(uint32_t milliseconds)
     usleep(milliseconds * 1000u);
 }
 
+static fclCmd_t last_data;
+
+void data_callback(fclCmd_t data)
+{
+    last_data = data;
+}
+
 class sim_lib : public ::testing::Test
 {
 public:
@@ -22,8 +29,9 @@ public:
 
     void SetUp() override
     {
+        last_data = eLastCmd;
         fcl_init_fc_proxy();
-        fcl_init_sim_proxy();
+        fcl_init_sim_proxy(&data_callback);
     }
 
     void TearDown() override
@@ -71,6 +79,7 @@ TEST_F(sim_lib, ut_gps)
     sleep_ms(SOCKET_SLEEP);
     EXPECT_TRUE(fcl_get_from_sim(eGps, &gps2));
     EXPECT_EQ(gps.latitude, gps2.latitude);
+    EXPECT_EQ(eGps, last_data);
 }
 
 TEST_F(sim_lib, ut_imu)

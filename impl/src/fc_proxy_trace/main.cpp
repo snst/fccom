@@ -21,7 +21,8 @@ static void recv_data(void *context, const char *data, uint32_t len)
     fcl_set_data(cmd_buf, data, len);
     if (fcl_get_data2(cmd_buf, eJoystick, &j))
     {
-        printf("%u r: %u, %u %u %u %u %u, %u\n", i++, len, j.axis[0], j.axis[1], j.axis[2], j.axis[3], j.axis[4], j.button);
+//        printf("%u r: %u, %u %u %u %u %u, %u\n", i++, len, j.axis[0], j.axis[1], j.axis[2], j.axis[3], j.axis[4], j.button);
+        printf("%u r: %u, %f %f %f %f %f, %u\n", i++, len, j.val[0], j.val[1], j.val[2], j.val[3], j.val[4], j.button);
     }
 }
 
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
     char buffer[128];
     cmd_buf[eJoystick] = &j;
 
-    udpInitRecvThread(&link, NULL, FCL_FC_PORT, &recv_data,
+    udp_init_recv_thread(&link, NULL, FCL_FC_PORT, &recv_data,
                       100, buffer, sizeof(buffer));
 
     while (true)

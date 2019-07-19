@@ -15,7 +15,7 @@ void fcl_send_data(udpLink_t *link, fclCmd_t cmd, void *data) {
   hdr->len = (uint16_t)fcl_cmd_len[cmd];
   memcpy(tmp + sizeof(fcl_hdr_t), data, hdr->len);
   size_t len = sizeof(fcl_hdr_t) + hdr->len;
-  udpSend(link, tmp, len);
+  udp_send(link, tmp, len);
 }
 
 bool fcl_get_data2(void *cmd_buf[], fclCmd_t cmd, void *data) {
@@ -40,8 +40,9 @@ bool fcl_get_data(fcl_context_t *context, fclCmd_t cmd, void *data) {
   return ret;
 }
 
-void fcl_set_data(void *cmd_buf[], const char *data, uint32_t len) {
+fclCmd_t fcl_set_data(void *cmd_buf[], const char *data, uint32_t len) {
 
+  fclCmd_t ret = eLastCmd;
   fcl_hdr_t *hdr = (fcl_hdr_t *)data;
   const char *ptr = data + sizeof(fcl_hdr_t);
   char *dest = NULL;
@@ -51,17 +52,22 @@ void fcl_set_data(void *cmd_buf[], const char *data, uint32_t len) {
       void *dest = cmd_buf[hdr->cmd];
       if (NULL != dest) {
         memcpy(dest, ptr, hdr->len);
+        ret = hdr->cmd;
       }
     }
   }
+  return ret;
 }
 
 static void recv_data(void *context, const char *data, uint32_t len) {
 
   fcl_context_t *ctx = (fcl_context_t *)context;
   pthread_mutex_lock(&ctx->mutex);
-  fcl_set_data(ctx->cmd_buf, data, len);
+  fclCmd_t cmd = fcl_set_data(ctx->cmd_buf, data, len);
   pthread_mutex_unlock(&ctx->mutex);
+  if (NULL != ctx->data_callback) {
+    ctx->data_callback(cmd);
+  }
 }
 
 void fcl_init_proxy(fcl_context_t *context) {
@@ -69,13 +75,13 @@ void fcl_init_proxy(fcl_context_t *context) {
   pthread_mutex_init(&context->mutex, NULL);
   context->link_r.context = context;
   context->link_s.context = context;
-  udpInit(&context->link_s, context->remote_addr, context->remote_port, false);
-  udpInitRecvThread(&context->link_r, context->local_addr, context->local_port,
+  udp_init(&context->link_s, context->remote_addr, context->remote_port, false);
+  udp_init_recv_thread(&context->link_r, context->local_addr, context->local_port,
                     &recv_data, 100, context->buffer, sizeof(context->buffer));
 }
 
 void fcl_deinit_proxy(fcl_context_t *context) {
 
-  udpDeinit(&context->link_s);
-  udpDeinit(&context->link_r);
+  udp_deinit(&context->link_s);
+  udp_deinit(&context->link_r);
 }

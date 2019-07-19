@@ -11,7 +11,7 @@
 #include <string.h>
 #include <sys/socket.h>
 
-int udpInit(udpLink_t *link, const char *addr, uint16_t port, bool isServer) {
+int udp_init(udpLink_t *link, const char *addr, uint16_t port, bool isServer) {
 
   int one = 1;
   link->thread = 0;
@@ -47,7 +47,7 @@ int udpInit(udpLink_t *link, const char *addr, uint16_t port, bool isServer) {
   return 0;
 }
 
-int udpDeinit(udpLink_t *link) {
+int udp_deinit(udpLink_t *link) {
 
   link->stop = true;
 
@@ -57,13 +57,13 @@ int udpDeinit(udpLink_t *link) {
   }
 }
 
-int udpSend(udpLink_t *link, const void *data, size_t size) {
+int udp_send(udpLink_t *link, const void *data, size_t size) {
 
   return sendto(link->fd, data, size, 0, (struct sockaddr *)&link->si,
                 sizeof(link->si));
 }
 
-int udpRecv(udpLink_t *link, void *data, size_t size, uint32_t timeout_ms) {
+int udp_recv(udpLink_t *link, void *data, size_t size, uint32_t timeout_ms) {
 
   fd_set fds;
   struct timeval tv;
@@ -83,18 +83,18 @@ int udpRecv(udpLink_t *link, void *data, size_t size, uint32_t timeout_ms) {
   return ret;
 }
 
-void *udpRecvWorker(void *ptr) {
+void *udp_recvWorker(void *ptr) {
 
   udpLink_t *link = (udpLink_t *)ptr;
   while (!link->stop) {
-    int ret = udpRecv(link, link->buffer, link->buffer_size, link->timeout_ms);
+    int ret = udp_recv(link, link->buffer, link->buffer_size, link->timeout_ms);
     if (ret > 0) {
       link->onData(link->context, link->buffer, (uint32_t)ret);
     }
   }
 }
 
-void udpInitRecvThread(udpLink_t *link, const char *addr, uint16_t port,
+void udp_init_recv_thread(udpLink_t *link, const char *addr, uint16_t port,
                        OnUdpData callback, uint32_t timeout_ms, char *buffer,
                        uint32_t buffer_size) {
 
@@ -102,6 +102,6 @@ void udpInitRecvThread(udpLink_t *link, const char *addr, uint16_t port,
   link->onData = callback;
   link->buffer = buffer;
   link->buffer_size = buffer_size;
-  udpInit(link, addr, port, true);
-  pthread_create(&link->thread, NULL, udpRecvWorker, (void *)link);
+  udp_init(link, addr, port, true);
+  pthread_create(&link->thread, NULL, udp_recvWorker, (void *)link);
 }

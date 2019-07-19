@@ -38,11 +38,16 @@ int main(int argc, char *argv[]) {
   std::thread t1(joystick_thread, &js, debug);
 
   udpLink_t link;
-  udpInit(&link, FCL_FC_ADDR, FCL_FC_PORT, false);
+  udp_init(&link, FCL_FC_ADDR, FCL_FC_PORT, false);
   fcl_joystick_t j = {0};
 
   while (true) {
     j.button = 0;
+    j.val[0] = js.get_axis_raw(Joystick::eRoll);
+    j.val[1] = js.get_axis_raw(Joystick::ePitch);
+    j.val[2] = js.get_axis_raw(Joystick::eThrottle);
+    j.val[3] = js.get_axis_raw(Joystick::eYaw);
+    j.val[4] = js.get_axis_raw(Joystick::eAux);
     j.axis[0] = js.get_axis(Joystick::eRoll);
     j.axis[1] = js.get_axis(Joystick::ePitch);
     j.axis[2] = js.get_axis(Joystick::eThrottle);

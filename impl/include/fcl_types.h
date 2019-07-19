@@ -19,5 +19,7 @@ typedef enum
     eLastCmd
 } fclCmd_t;
 
+typedef void (*on_fcl_update)(fclCmd_t data);
+
 
 #endif // FCL_TYPES_H

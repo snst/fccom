@@ -11,6 +11,7 @@ extern "C" {
 #include <stddef.h>
 #include <stdint.h>
 
+
 typedef struct {
   pthread_mutex_t mutex;
   udpLink_t link_s;
@@ -21,6 +22,7 @@ typedef struct {
   uint16_t remote_port;
   const char* local_addr;
   const char* remote_addr;
+  on_fcl_update data_callback;
 } fcl_context_t;
 
 extern size_t fcl_cmd_len[eLastCmd];
@@ -28,7 +30,7 @@ extern size_t fcl_cmd_len[eLastCmd];
 
 void fcl_send_data(udpLink_t *link, fclCmd_t cmd, void *data);
 bool fcl_get_data(fcl_context_t* context, fclCmd_t cmd, void *data);
-void fcl_set_data(void *cmd_buf[], const char *data, uint32_t len);
+fclCmd_t fcl_set_data(void *cmd_buf[], const char *data, uint32_t len);
 bool fcl_get_data2(void *cmd_buf[], fclCmd_t cmd, void *data);
 void fcl_init_proxy(fcl_context_t* context);
 void fcl_deinit_proxy(fcl_context_t* context);

@@ -36,11 +36,11 @@ typedef struct {
   bool isServer;
 } udpLink_t;
 
-int udpInit(udpLink_t *link, const char *addr, uint16_t port, bool isServer);
-int udpDeinit(udpLink_t *link);
-int udpRecv(udpLink_t *link, void *data, size_t size, uint32_t timeout_ms);
-int udpSend(udpLink_t *link, const void *data, size_t size);
-void udpInitRecvThread(udpLink_t *link, const char *addr, uint16_t port,
+int udp_init(udpLink_t *link, const char *addr, uint16_t port, bool isServer);
+int udp_deinit(udpLink_t *link);
+int udp_recv(udpLink_t *link, void *data, size_t size, uint32_t timeout_ms);
+int udp_send(udpLink_t *link, const void *data, size_t size);
+void udp_init_recv_thread(udpLink_t *link, const char *addr, uint16_t port,
                        OnUdpData callback, uint32_t timeout_ms, char *buffer,
                        uint32_t buffer_size);
 
