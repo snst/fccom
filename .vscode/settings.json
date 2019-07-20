@@ -4,6 +4,10 @@
         "stdint.h": "c",
         "fcc_pos.h": "c",
         "chrono": "cpp",
-        "thread": "cpp"
-    }
+        "thread": "cpp",
+        "udplink.h": "c",
+        "fcl_types.h": "c",
+        "fcl_gps_t.h": "c"
+    },
+    "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools"
 }
