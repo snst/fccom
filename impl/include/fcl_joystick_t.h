@@ -10,7 +10,7 @@
 typedef struct
 {
     float val[MAX_RC_CHANNELS];
-    uint16_t axis[MAX_JOYSTICK_AXES];
+    //uint16_t axis[MAX_JOYSTICK_AXES];
     uint16_t button;
 } fcl_joystick_t;
 

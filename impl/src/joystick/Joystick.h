@@ -31,7 +31,7 @@ public:
   void print_state();
   void map_axis(struct js_event *event);
   int32_t get_axis(axis_t i);
-  float get_axis_raw(axis_t i);
+  float get_axis_raw(uint32_t i);
   int32_t get_button(uint32_t i);
   bool get_button_state(uint32_t i);
 

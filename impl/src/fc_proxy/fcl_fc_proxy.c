@@ -6,12 +6,15 @@
 
 static fcl_context_t context;
 static fcl_motor_t data_motor;
+static fcl_resetworld_t data_resetworld;
 
-void fcl_init_fc_proxy(on_fcl_update callback) {
+void fcl_init_fc_proxy(void* ptr, on_fcl_update callback) {
 
   memset(&context, 0, sizeof(context));
   context.data_callback = callback;
+  context.data_callback_ptr = ptr;
   context.cmd_buf[eMotor] = &data_motor;
+  context.cmd_buf[eResetWorld] = &data_resetworld;
   context.local_addr = NULL;
   context.local_port = FCL_SIM_PORT;
   context.remote_addr = FCL_FC_ADDR;

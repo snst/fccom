@@ -9,6 +9,7 @@ static fcl_pos_t data_pos;
 static fcl_gps_t data_gps;
 static fcl_imu_t data_imu;
 static fcl_joystick_t data_joystick;
+static fcl_fcstate_t data_fcstate;
 
 static fcl_context_t context;
 
@@ -20,6 +21,7 @@ void fcl_init_sim_proxy(on_fcl_update callback) {
   context.cmd_buf[ePos] = &data_pos;
   context.cmd_buf[eGps] = &data_gps;
   context.cmd_buf[eImu] = &data_imu;
+  context.cmd_buf[eFcstate] = &data_fcstate;
   context.cmd_buf[eJoystick] = &data_joystick;
 
   context.local_addr = NULL;

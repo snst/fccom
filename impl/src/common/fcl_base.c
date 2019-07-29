@@ -3,9 +3,10 @@
 #include "udplink.h"
 #include <string.h>
 
-size_t fcl_cmd_len[eLastCmd] = {sizeof(fcl_sonar_t), sizeof(fcl_pos_t),
-                                sizeof(fcl_gps_t),   sizeof(fcl_imu_t),
-                                sizeof(fcl_motor_t), sizeof(fcl_joystick_t)};
+size_t fcl_cmd_len[eLastCmd] = {
+    sizeof(fcl_sonar_t),   sizeof(fcl_pos_t),       sizeof(fcl_gps_t),
+    sizeof(fcl_imu_t),     sizeof(fcl_motor_t),     sizeof(fcl_joystick_t),
+    sizeof(fcl_fcstate_t), sizeof(fcl_resetworld_t)};
 
 void fcl_send_data(udpLink_t *link, fclCmd_t cmd, void *data) {
 
@@ -66,7 +67,7 @@ static void recv_data(void *context, const char *data, uint32_t len) {
   fclCmd_t cmd = fcl_set_data(ctx->cmd_buf, data, len);
   pthread_mutex_unlock(&ctx->mutex);
   if (NULL != ctx->data_callback) {
-    ctx->data_callback(cmd);
+    ctx->data_callback(ctx->data_callback_ptr, cmd);
   }
 }
 
@@ -76,8 +77,9 @@ void fcl_init_proxy(fcl_context_t *context) {
   context->link_r.context = context;
   context->link_s.context = context;
   udp_init(&context->link_s, context->remote_addr, context->remote_port, false);
-  udp_init_recv_thread(&context->link_r, context->local_addr, context->local_port,
-                    &recv_data, 100, context->buffer, sizeof(context->buffer));
+  udp_init_recv_thread(&context->link_r, context->local_addr,
+                       context->local_port, &recv_data, 100, context->buffer,
+                       sizeof(context->buffer));
 }
 
 void fcl_deinit_proxy(fcl_context_t *context) {

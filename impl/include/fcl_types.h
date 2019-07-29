@@ -7,6 +7,8 @@
 #include "fcl_imu_t.h"
 #include "fcl_motor_t.h"
 #include "fcl_joystick_t.h"
+#include "fcl_fcstate_t.h"
+#include "fcl_resetworld_t.h"
 
 typedef enum
 {
@@ -16,10 +18,12 @@ typedef enum
     eImu,
     eMotor,
     eJoystick,
+    eFcstate,
+    eResetWorld,
     eLastCmd
 } fclCmd_t;
 
-typedef void (*on_fcl_update)(fclCmd_t data);
+typedef void (*on_fcl_update)(void* ptr, fclCmd_t data);
 
 
 #endif // FCL_TYPES_H

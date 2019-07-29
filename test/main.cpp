@@ -15,7 +15,7 @@ void sleep_ms(uint32_t milliseconds)
 
 static fclCmd_t last_data;
 
-void data_callback(fclCmd_t data)
+void data_callback(void *ptr, fclCmd_t data)
 {
     last_data = data;
 }
@@ -30,7 +30,7 @@ public:
     void SetUp() override
     {
         last_data = eLastCmd;
-        fcl_init_fc_proxy(NULL);
+        fcl_init_fc_proxy(NULL, NULL);
         fcl_init_sim_proxy(&data_callback);
     }
 

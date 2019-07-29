@@ -84,7 +84,7 @@ int32_t Joystick::get_axis(axis_t i)
     }
 }
 
-float Joystick::get_axis_raw(axis_t i)
+float Joystick::get_axis_raw(uint32_t i)
 {
     if (MAX_AXIS > (uint32_t)i)
     {

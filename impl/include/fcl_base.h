@@ -23,6 +23,7 @@ typedef struct {
   const char* local_addr;
   const char* remote_addr;
   on_fcl_update data_callback;
+  void* data_callback_ptr;
 } fcl_context_t;
 
 extern size_t fcl_cmd_len[eLastCmd];
